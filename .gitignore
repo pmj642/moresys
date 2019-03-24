@@ -1,0 +1,8 @@
+*.pyc
+*~
+__pycache__
+moresys
+db.sqlite3
+/static
+.DS_Store
+csv_to_model.py
