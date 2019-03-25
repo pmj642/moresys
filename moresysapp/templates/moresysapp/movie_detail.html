@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <!-- <title>{{ movie.title }}</title> -->
+    </head>
+    <body>
+        <p>{{ movie_id }}</p>
+        {% for movie in similar_movies %}
+            <p>{{ movie }}</p>
+        {% endfor %}
+    </body>
+</html>
