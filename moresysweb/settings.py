@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
+# Caching
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'C:/Users/Pranshu/Documents/GitHub/MoReSys/moresysapp',
+    }
+}
 
 # Application definition
 

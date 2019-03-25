@@ -39,8 +39,19 @@ def getSimilar(movie_id):
     for movie in movie_data:
         movie_soup.append(create_soup(movie))
     movie_name = list(Movie.objects.filter(movie_id=movie_id).values_list("title", flat=True))[0]
-    count_matrix = getCountVector(movie_soup)
-    similarity_matrix = cosine_similarity(count_matrix, count_matrix)
+
+    if cache.get('count_matrix') == None:
+        count_matrix = getCountVector(movie_soup)
+        cache.set('count_matrix', count_matrix)
+    else:
+        count_matrix = cache.get('count_matrix')
+
+    if cache.get('similarity_matrix') == None:
+        similarity_matrix = cosine_similarity(count_matrix, count_matrix)
+        cache.set('similarity_matrix', similarity_matrix)
+    else:
+        similarity_matrix = cache.get('similarity_matrix')
+
     similar_movie_names = getRecommendations(movie_name, 11, similarity_matrix, movie_names)
     similar_movie_data = list(Movie.objects.filter(title__in=similar_movie_names).values_list("movie_id", "title", "poster_path", "runtime", "release_year"))
     return similar_movie_data
