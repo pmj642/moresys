@@ -53,10 +53,7 @@
         <div class="container my-5">
             <div class="row">
                 <div class="search-bar my-3 mx-auto">
-                    <input list="results" class="form-control mr-sm-2"
-                    id="nameField" name="name" placeholder="Start typing name.."
-                    onkeyup="search()" onkeypress="search()">
-                    <datalist id="results"> </datalist>
+                    <input class="form-control mr-sm-2" id="searchbar" placeholder="Enter movie name...">
                 </div>
             </div>
         </div>
@@ -64,15 +61,15 @@
         <!-- Movies -->
 
             <div class="container">
-                <div class="row p-4">
+                <div class="row px-4">
                     {% for movie in movies %}
                         <div class="col-md-4 col-sm-6 col-12 mb-5 px-2">
-                            <a href="movie/{{ movie.movie_id }}">
+                            <a href="{{ BASE_URL }}/movie/{{ movie.movie_id }}">
                                 <div class="card rounded-0 card-hover text-dark">
                                     <img class="card-img-top" src="https://image.tmdb.org/t/p/w533_and_h300_bestv2{{ movie.poster_path }}">
                                     <div class="card-body p-3">
-                                        <span class="card-title float-left mb-0 font-weight-bold"> {{ movie.title }} ({{ movie.release_year }}) </span>
-                                        <span class="float-right"> {{ movie.runtime }} mins </span>
+                                        <span class="card-title float-left mb-0 font-weight-bold"> {{ movie.title }} </span><br>
+                                        <span class="float-left"> {{ movie.release_year }} | {{ movie.runtime }} mins </span>
                                     </div>
                                 </div>
                             </a>
@@ -83,13 +80,19 @@
 
         <!-- Scripts -->
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
+        <script>
+            const searchbar = document.getElementById("searchbar");
+            searchbar.addEventListener("keydown", function (e) {
+                if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+                    search();
+                }
+            });
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.4/fuse.min.js"></script>
-
-        <script src="{% static 'js/search.js' %}"></script>
-        <script src="{% static 'js/fetch.js' %}"></script>
+            function search() {
+                let query = searchbar.value;
+                console.log(query);
+                window.location.replace('{{ BASE_URL }}/search/' + query);
+            }
+        </script>
     </body>
 </html>

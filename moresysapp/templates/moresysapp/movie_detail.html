@@ -1,11 +1,126 @@
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <!-- <title>{{ movie.title }}</title> -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Moresys - {{ movie.title }}</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous">
+
+        <style>
+
+            .theme-color {
+              color: orangered;
+            }
+            .normal-text {
+              font-size: 1.2rem;
+            }
+            .card:hover {
+                background-color: #f9f9f9;
+            }
+
+        </style>
     </head>
+
     <body>
-        <p>{{ movie_id }}</p>
-        {% for movie in similar_movies %}
-            <p>{{ movie }}</p>
-        {% endfor %}
+        <!-- Header -->
+
+        <div class="bg-dark">
+            <div class="container bg-dark">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="h2 text-light">MoReSys</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Movie Details -->
+
+        <div class="container mb-5">
+            <!-- Back Button -->
+            <div class="h4 mt-4 mb-5">
+                <a class="text-muted" href="{{ BASE_URL }}/">
+                    <div class="fas fa-angle-left px-1"></div>Back
+                </a>
+            </div>
+
+            <!-- Movie Poster -->
+            <div class="row mb-5">
+                <div class="col-md-4 col-sm-4 col-12">
+                    <div class="card-left text-center">
+                        <img class="w-75" src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-12">
+                    <!-- Movie Title -->
+                    <div class="h2 mb-3"> {{ movie.title }} ({{ movie.release_year }}) </div>
+
+                    <!-- Movie Description -->
+                    <div class="normal-text mb-3"> {{ movie.overview }} </div>
+
+                    <!-- Movie Runtime, Release Year & Genres -->
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <span class="h5 theme-color">Genres</span><br>
+                            <span class="normal-text"> {{ movie.genres }} </span>
+                        </div>
+                        <div class="col-4">
+                            <span class="h5 theme-color">Original Runtime</span><br>
+                            <span class="normal-text"> {{ movie.runtime }} </span>
+                        </div>
+                    </div>
+
+                    <!-- Writer & Director -->
+                    <div class="row">
+                        {% if movie.director != '' %}
+                        <div class="col-8">
+                            <span class="h5 theme-color">Director</span><br>
+                            <span class="normal-text"> {{ movie.director }} </span>
+                        </div>
+                        {% endif %}
+
+                        {% if movie.director != '' %}
+                        <div class="col-4">
+                            <span class="h5 theme-color">Writer</span><br>
+                            <span class="normal-text"> {{ movie.writer }} </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="h4 mb-4">Movies like <span class="theme-color"> {{ movie.title }} </span> </div>
+            <div class="row" id="movie-board">
+                {% for movie in similar_movies %}
+                    <div class="col-md-2 col-sm-4 col-6 mb-5 px-2">
+                        <a href="{{ BASE_URL }}/movie/{{ movie.movie_id }}">
+                            <div class="card rounded-0 card-hover text-dark">
+                                <img class="card-img-top" src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}">
+                                <div class="card-body p-2">
+                                    <span class="card-title float-left mb-0 font-weight-bold"> {{ movie.title }} </span><br>
+                                    <span class="float-left"> {{ movie.release_year }} | {{ movie.runtime }} mins </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Scripts -->
+
+        <script type="text/javascript">
+          printMovieDetails("{{ movie.title }}");
+        </script>
+
     </body>
 </html>

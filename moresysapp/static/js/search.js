@@ -17,9 +17,8 @@ var options = {
 var current_data = '';
 function search() {
     var query = document.getElementById('nameField').value;
-    if(current_data == query)
+    if(current_data == query || query=='')
         return;
-    current_data = query;
     var fuse = new Fuse(list, options);
     var result = fuse.search(query);
     
@@ -31,5 +30,6 @@ function search() {
         ele.setAttribute('value', result[i]);
         resultEle.appendChild(ele);
     }
+    current_data = query;
     return result;
 }
